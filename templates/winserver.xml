@@ -1,0 +1,15 @@
+<powershell>
+# Baixar o instalador do CloudWatch Agent
+curl.exe -o "C:\amazon-cloudwatch-agent.msi" "https://amazoncloudwatch-agent.s3.amazonaws.com/windows/amd64/latest/amazon-cloudwatch-agent.msi"
+
+# Instalar o CloudWatch Agent
+Start-Process -FilePath "msiexec.exe" -ArgumentList '/i "C:\amazon-cloudwatch-agent.msi" /quiet /norestart' -NoNewWindow -Wait
+
+# Aplicar a configuração padrão para EC2
+& "C:\Program Files\Amazon\AmazonCloudWatchAgent\amazon-cloudwatch-agent-ctl.ps1" -a fetch-config -m ec2 -c default -s
+
+# Iniciar o CloudWatch Agent
+& "C:\Program Files\Amazon\AmazonCloudWatchAgent\amazon-cloudwatch-agent-ctl.ps1" -a start
+
+Write-Output "CloudWatch Agent installation and configuration completed successfully."
+</powershell>
